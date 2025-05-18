@@ -15,6 +15,14 @@
 <div id="map"></div>
 <div id="distance-box">Tap to set a target...</div>
 
+<div id="token-modal" style="display:none; position:fixed; top:30%; left:50%; transform:translate(-50%, -50%); background:#fff; padding:20px; border:1px solid #ccc; z-index:1000;">
+  <form id="token-form">
+    <label for="token-input">Enter your Mapbox access token:</label><br>
+    <input type="password" id="token-input" name="token" autocomplete="off" style="width:100%;" />
+    <button type="submit">Submit</button>
+  </form>
+</div>
+
 <script 
   src="https://unpkg.com/leaflet/dist/leaflet.js">
 </script>
