@@ -1,6 +1,7 @@
 let map = L.map('map').setView([0, 0], 18);
 let userMarker, targetMarker;
 let userLatLng;
+let line;
 
 let MAPBOX_TOKEN = window.MAPBOX_TOKEN;
 if (MAPBOX_TOKEN === undefined) {
@@ -39,6 +40,13 @@ if (MAPBOX_TOKEN === undefined) {
             targetMarker = L.marker(targetLatLng, { draggable: true }).addTo(map);
         }
 
+        // Draw or update the line
+        if (line) {
+            line.setLatLngs([userLatLng, targetLatLng]);
+        } else {
+            line = L.polyline([userLatLng, targetLatLng], { color: 'red', weight: 3 }).addTo(map);
+        }
+
         // Calculate and display distance
         if (userLatLng) {
             const distance = userLatLng.distanceTo(targetLatLng); // meters
@@ -52,9 +60,13 @@ if (MAPBOX_TOKEN === undefined) {
         }
         });
 
-        targetMarker.on('dragend', function () {
+        targetMarker && targetMarker.on('dragend', function () {
         const targetLatLng = targetMarker.getLatLng();
         if (userLatLng) {
+            // Update the line
+            if (line) {
+                line.setLatLngs([userLatLng, targetLatLng]);
+            }
             const distance = userLatLng.distanceTo(targetLatLng);
             const distanceYards = distance * 1.09361;
 
